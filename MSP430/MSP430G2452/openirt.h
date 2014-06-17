@@ -1,18 +1,37 @@
+/**********************************************************************
+MSP430 OpenIRT protocol.
+-----------------------------------------------------------------------
+Contributors: Daniel Baek
+-----------------------------------------------------------------------
+An Open Source Communication Protocol for sending information via
+infrared light.
+
+For now, only ASCII characters can be sent and received.
+**********************************************************************/
+
 #include <msp430g2452.h>
 
+/*Function prototyping*/
 int setup();
 int set_input(unsigned int pin);
 int set_output(unsigned int pin);
+int send();
 char recieve();
-char send();
+
+/*Hopefully, no one is stupid enough to modify these global variables.
+After considering the constraints that I'm working with, it's probably
+better that these variables are treated globally.*/
+static int input_pin = 14;
+static int output_pin = 14;
 
 int setup(){
 
-    /*Make sure that we are using 1MHz.*/
+    /*Force 1MHz DCO.*/
     BCSCTL1 = CALBC1_1MHZ;
-    DCOCTL = CALDCO_1MHz;
+    DCOCTL = CALDCO_1MHZ;
     
-    /*Count limit is 1, because we want to poll at a frequency of 1MHz.*/
+    /*Count limit is 1, because we want to poll at a frequency of
+	1MHz.*/
     TA0CCR0 = 1;
     
     /*Enable counter interrupt.*/
@@ -20,9 +39,85 @@ int setup(){
     
     /*Timer runs on DCO which runs at 1MHz.
     Timer resets after reaching compare value.*/
-    TA0CTL = TASSEL_2 + MC_1
+    TA0CTL = TASSEL_2 + MC_1;
     
     /*Global interrupt enable.*/
     _BIS_SR(GIE);
 
+}
+
+int set_input(unsigned int pin){
+
+    /*This function exists to make sure that we have the correct pin
+	when looking for input.
+	The function returns a zero when successful, and returns a one to
+	indicate an error.*/
+	
+    input_pin = pin;
+	
+    /*Pins are represented sequentially with P1.0 represented as 0 and
+	P2.5 represented as 13.*/
+	
+	switch (pin){
+
+	    case 0:
+		    P1DIR &= ~BIT0;
+			return 0;
+		
+		case 1:
+		    P1DIR &= ~BIT1;
+			return 0;
+			
+		case 2:
+		    P1DIR &= ~BIT2;
+			return 0;
+		
+		case 3:
+		    P1DIR &= ~BIT3;
+			return 0;
+		
+		case 4:
+		    P1DIR &= ~BIT4;
+			return 0;
+		
+		case 5:
+		    P1DIR &= ~BIT5;
+			return 0;
+		
+		case 6:
+		    P1DIR &= ~BIT6;
+			return 0;
+		
+		case 7:
+		    P1DIR &= ~BIT7;
+			return 0;
+		
+		case 8:
+		    P2DIR &= ~BIT0;
+			return 0;
+		
+		case 9:
+			P2DIR &= ~BIT1;
+			return 0;
+		
+		case 10:
+			P2DIR &= ~BIT2;
+			return 0;
+		
+		case 11:
+		    P2DIR &= ~BIT3;
+			return 0;
+		
+		case 12:
+		    P2DIR &= ~BIT4;
+			return 0;
+		
+		case 13:
+	        P2DIR &= ~BIT5;
+			return 0;
+		
+		default:
+		    return 1;
+
+	}
 }
