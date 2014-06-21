@@ -12,19 +12,19 @@ For now, only ASCII characters can be sent and received.
 #include <msp430g2452.h>
 
 /*Function prototyping*/
-int setup();
-int set_input(unsigned int pin);
-int set_output(unsigned int pin);
-int send();
+void setup();
+char set_input(unsigned char pin);
+char set_output(unsigned char pin);
+char send();
 char recieve();
 
 /*Hopefully, no one is stupid enough to modify these global variables.
 After considering the constraints that I'm working with, it's probably
 better that these variables are treated globally.*/
-static int input_pin = 14;
-static int output_pin = 14;
+static char input_pin = 14;
+static char output_pin = 14;
 
-int setup(){
+void setup(){
 
     /*Force 1MHz DCO.*/
     BCSCTL1 = CALBC1_1MHZ;
@@ -46,7 +46,7 @@ int setup(){
 
 }
 
-int set_input(unsigned int pin){
+char set_input(unsigned char pin){
 
     /*This function exists to make sure that we have the correct pin
 	when looking for input.
