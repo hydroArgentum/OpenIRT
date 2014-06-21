@@ -121,3 +121,79 @@ char set_input(unsigned char pin){
 
 	}
 }
+
+char set_output(unsigned char pin){
+
+    /*This function exists to make sure that we have the correct pin
+	when looking for output.
+	The function returns a zero when successful, and returns a one to
+	indicate an error.*/
+	
+	output_pin = pin;
+	
+	/*Pins are represented sequentially with P1.0 represented as 0 and
+	P2.5 represented as 13.*/
+	
+	switch (pin){
+
+	    case 0:
+		    P1DIR += BIT0;
+			return 0;
+		
+		case 1:
+		    P1DIR += BIT1;
+			return 0;
+			
+		case 2:
+		    P1DIR += BIT2;
+			return 0;
+		
+		case 3:
+		    P1DIR += BIT3;
+			return 0;
+		
+		case 4:
+		    P1DIR += BIT4;
+			return 0;
+		
+		case 5:
+		    P1DIR += BIT5;
+			return 0;
+		
+		case 6:
+		    P1DIR += BIT6;
+			return 0;
+		
+		case 7:
+		    P1DIR += BIT7;
+			return 0;
+		
+		case 8:
+		    P2DIR += BIT0;
+			return 0;
+		
+		case 9:
+			P2DIR += BIT1;
+			return 0;
+		
+		case 10:
+			P2DIR += BIT2;
+			return 0;
+		
+		case 11:
+		    P2DIR += BIT3;
+			return 0;
+		
+		case 12:
+		    P2DIR += BIT4;
+			return 0;
+		
+		case 13:
+	        P2DIR += BIT5;
+			return 0;
+		
+		default:
+		    return 1;
+			
+	}
+}
