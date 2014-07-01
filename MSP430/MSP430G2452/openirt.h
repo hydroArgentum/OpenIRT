@@ -62,72 +62,58 @@ char set_input(unsigned char pin){
 
         case 0:
             P1DIR &= ~BIT0;
-            P1REN |= BIT0;
             return 0;
 
         case 1:
             P1DIR &= ~BIT1;
-            P1REN |= BIT1;
             return 0;
 
         case 2:
             P1DIR &= ~BIT2;
-            P1REN |= BIT2;
             return 0;
 
         case 3:
             P1DIR &= ~BIT3;
-            P1REN |= BIT3;
             return 0;
 
         case 4:
             P1DIR &= ~BIT4;
-            P1REN |= BIT4;
             return 0;
 
         case 5:
             P1DIR &= ~BIT5;
-            P1REN |= BIT5;
             return 0;
 
         case 6:
             P1DIR &= ~BIT6;
-            P1REN |= BIT6;
             return 0;
 
         case 7:
             P1DIR &= ~BIT7;
-            P1REN |= BIT7;
             return 0;
 
         case 8:
             P2DIR &= ~BIT0;
-            P2REN |= BIT0;
             return 0;
 
         case 9:
             P2DIR &= ~BIT1;
-            P2REN |= BIT1;
             return 0;
 
         case 10:
             P2DIR &= ~BIT2;
-            P2REN |= BIT2;
             return 0;
 
         case 11:
             P2DIR &= ~BIT3;
-            P2REN |= BIT3;
             return 0;
 
         case 12:
             P2DIR &= ~BIT4;
-            P2REN |= BIT4;
             return 0;
 
         case 13:
             P2DIR &= ~BIT5;
-            P2REN |= BIT5;
             return 0;
 
         default:
