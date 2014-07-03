@@ -31,7 +31,7 @@ void getPulse()                   // Mostly adapted from AdaFruit
   while (PIND & (1<< RECEIVER))         //Reads for "ON" pulses and their lengths faster than digitalRead
   {
     ONpulse++;                          //Increment ONpulse counter until no more HIGH signal
-    delayMicroseconds(SAMPLING)  
+    delayMicroseconds(SAMPLING);  
     
     if ((ONpulse >= 65000) && (currentpulse != 0)) //If pulse train has ended (if signal stays HIGH):
     {                                                  //Write storage array to serial comm. and reset
