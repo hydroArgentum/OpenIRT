@@ -1,5 +1,8 @@
-//This sketch allows an Arduino to send an arbitary pattern of IR signals modulated at 38KHz. 
-//It is meant to be used a ping test.
+//This sketch allows an Arduino to send an IR signals modulated at 38KHz. 
+//It also converts a string of ASCII text into pulse train for output
+
+//Text to Send-----------------------------------------
+#define STRING "Hello World"
 
 //Pin I/O Initiailization------------------------------
 int LED = 3;                     //IR LED output pin
@@ -11,28 +14,56 @@ void setup()
   pinMode(LED, OUTPUT);
 }
 
-void loop()                  // Simple ping test to see if two different arduinos can send and receive arbirtary pulses
+void loop()                  // Simple ping test to see if two different arduinos can send and receive pulses representing ASCII Letters
 { 
   sendPulse();               //Sends 38KHz modulated signal from IR LED
   delay(1000);
 }
 
 //Transmission Functions-------------------------------
-void sendPulse()
+void sendPulse()                                
 {
-  int i=0;
-  for (i=0; i<3;i++)              //Send an arbitary pulse pattern 3 times
+  int i;                                        //Temporary variables                           
+  int j;
+  char tempChar;
+  String charString;
+  String tempString;
+  String binString;
+  
+  pulse(64000);                                  //Header Delay (Will include frame delimiters, addressing, and options later on if needed)
+  delayMicroseconds(64000);
+  charString = STRING;                           //Get String of text
+  //Serial.println(charString);                  //For debugging purposes
+  
+  for (i=0; i<charString.length(); i++)          //For loop converts string of text into string of binary code
   {
-    pulse(2000);                  // 38KHz Modulated "ON" Pulse
-    delayMicroseconds(1500);      // "Off" Pulse
-    pulse(370);
-    delayMicroseconds(800);
-    pulse(1700);
-    delayMicroseconds(400);  
-    pulse(660);
-    delayMicroseconds(1000);
-    Serial.println("Sent");
+    tempChar = charString.charAt(i);             //Read each character of the string of text
+    for(j=7;j>=0;j--)    
+    {
+      byte a = bitRead(tempChar, j);             //Convert each character into a ASCII equivalent binary
+      tempString = String(a);                    //Use temporary variable to store current byte
+      binString = String(binString+tempString);  //Add current byte to string of binary
+    }
+  } 
+  //Serial.println(binString);                  //For debugging purposes
+  
+  for(i=0;i<binString.length();i++)               //Sends binary code as a pulse train to receiver         
+  {
+    tempChar = binString.charAt(i);               //Reads each bit of the binary code    
+    if (tempChar = '0')                           //If bit is zero, sends an ON signal for 1000us and OFF signal for 1000us
+    {
+       pulse(1000);
+       delayMicroseconds(1000);
+    }
+    if (tempChar = '1')                          //If bit is one, sends an ON signal for 2000us and OFF signal for 1000us
+    {
+       pulse(2000);
+       delayMicroseconds(1000);
+    }
   }
+  
+  pulse(64000);                                           //Footer delay (May include a frame check sequence later if needed)
+  delayMicroseconds(64000);
 }
 
 void pulse(long microseconds)     //**Adapted from pulseIR code found on Adafruit
