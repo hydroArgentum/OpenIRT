@@ -25,17 +25,17 @@ static char input_pin = INVALID_PIN;
 static char output_pin = INVALID_PIN;
 void setup()
 {
-  /* Force 1MHz DCO. This library requires the DCO to be calibrated to 1MHz. */
+  /* Force 1MHz DCO. This library requires the DCO to be calibrated to 1MHz.*/
   BCSCTL1 = CALBC1_1MHZ;
   DCOCTL = CALDCO_1MHZ;
-  /* Count limit is 1, because we want to poll at a frequency of 1MHz. */
+  /* Count limit is 1, because we want to poll at a frequency of 1MHz.*/
   TA0CCR0 = 1;
-  /* Enable counter interrupt. */
+  /* Enable counter interrupt.*/
   TA0CCTL0 = 0x10;
   /* Timer runs on DCO which runs at 1MHz. Timer resets after reaching compare
-  value. */
+  value.*/
   TA0CTL = TASSEL_2 + MC_1;
-  /* Global interrupt enable. */
+  /* Global interrupt enable.*/
   _BIS_SR(GIE);
 }
 char set_output(unsigned char pin)
